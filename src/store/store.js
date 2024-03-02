@@ -2,15 +2,19 @@ import { createStore } from "vuex";
 
 const store = createStore({
     state: {
-        clients: [],
-        products: []
+        customers: [],
+        products: [],
+        association: []
     },
     mutations: {
-        addClient(state, client) {
-            state.clients.push(client);
+        addCustomer(state, customer) {
+            state.customers.push(customer);
         },
         addProduct(state, product) {
             state.products.push(product);
+        },
+        createAssociationList(state, customerProductList) {
+            state.association.push(customerProductList);
         }
     }
 });
