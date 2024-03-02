@@ -3,30 +3,30 @@
         <h2>Cadastro de clientes</h2>
         <form @submit.prevent="submitForm">
             <div class="input-container">
-                <label for="client-name">Nome completo</label>
-                <input v-model="name" type="text" name="name" id="client-name">
+                <label for="customer-name">Nome completo</label>
+                <input v-model="name" type="text" name="name" id="customer-name">
             </div>
             <div class="input-container">
-                <label for="client-document">CPF</label>
-                <input v-model="document" type="text" name="document" id="client-document">
+                <label for="customer-document">CPF</label>
+                <input v-model="document" type="text" name="document" id="customer-document">
             </div>
             <div class="input-container">
-                <label for="client-tel">Telefone</label>
-                <input v-model="tel" type="tel" name="tel" id="client-tel">
+                <label for="customer-tel">Telefone</label>
+                <input v-model="tel" type="tel" name="tel" id="customer-tel">
             </div>
             <div class="input-container">
-                <label for="client-email">Email</label>
-                <input v-model="email" type="email" name="email" id="client-email">
+                <label for="customer-email">Email</label>
+                <input v-model="email" type="email" name="email" id="customer-email">
             </div>
             <div class="input-container">
-                <label for="client-status">Cliente ativo</label>
-                <select v-model="activatedStatus" name="status" id="client-status">
+                <label for="customer-status">Cliente ativo</label>
+                <select v-model="activatedStatus" name="status" id="customer-status">
                     <option value="yes"> Sim </option>
                     <option value="no"> Não </option>
                 </select>
             </div>
             <div class="input-container">
-                <input type="submit" id="btn-submit" value="Cadastrar cliente ">
+                <input type="submit" class="btn-submit" value="Cadastrar cliente ">
             </div>
         </form>
     </div>
@@ -34,7 +34,7 @@
 
 <script>
 export default {
-    name: 'client-registration-from',
+    name: 'customer-registration-from',
     data() {
         return {
             name: '',
@@ -46,7 +46,7 @@ export default {
     },
     methods: {
         submitForm() {
-            this.$store.commit('addClient', {
+            this.$store.commit('addCustomer', {
                 name: this.name,
                 document: this.document,
                 tel: this.tel,
@@ -101,7 +101,7 @@ select {
     padding: 6px;
 }
 
-.form-container form .input-container #btn-submit {
+.form-container form .input-container .btn-submit {
     background-color: darkgray;
     color: #ffffff;
     text-shadow: 1px 1px 5px #000000aa;
