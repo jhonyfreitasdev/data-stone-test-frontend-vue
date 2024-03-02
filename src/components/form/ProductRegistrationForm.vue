@@ -14,7 +14,7 @@
                 </select>
             </div>
             <div class="input-container">
-                <input type="submit" id="btn-submit" value="Cadastrar produto">
+                <input type="submit" class="btn-submit" value="Cadastrar produto">
             </div>
         </form>
     </div>
@@ -83,7 +83,7 @@ select {
     padding: 6px;
 }
 
-.form-container form .input-container #btn-submit {
+.form-container form .input-container .btn-submit {
     background-color: darkgray;
     color: #ffffff;
     text-shadow: 1px 1px 5px #000000aa;
