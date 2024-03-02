@@ -28,6 +28,14 @@ export default {
             name: '',
             activatedStatus: ''
         };
+    },
+    methods: {
+        submitForm() {
+            this.$store.commit('addProduct', {
+                name: this.name,
+                activatedStatus: this.activatedStatus === 'yes'
+            });
+        }
     }
 };
 </script>
@@ -68,7 +76,8 @@ export default {
     padding: 6px;
 }
 
-.form-container form .input-container input, select {
+.form-container form .input-container input,
+select {
     border: 1px solid #1d1c1c8e;
     border-radius: 6px;
     padding: 6px;
@@ -85,4 +94,4 @@ export default {
     margin: 15px auto 0 auto;
     padding: 10px;
 }
-</style>
+</style>mockDB,

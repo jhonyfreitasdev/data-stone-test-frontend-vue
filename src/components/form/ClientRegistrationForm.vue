@@ -46,7 +46,13 @@ export default {
     },
     methods: {
         submitForm() {
-            console.log(this.activatedStatus);
+            this.$store.commit('addClient', {
+                name: this.name,
+                document: this.document,
+                tel: this.tel,
+                email: this.email,
+                activatedStatus: this.activatedStatus === 'yes'
+            });
         }
     }
 }
@@ -88,7 +94,8 @@ export default {
     padding: 6px;
 }
 
-.form-container form .input-container input, select{
+.form-container form .input-container input,
+select {
     border: 1px solid #1d1c1c8e;
     border-radius: 6px;
     padding: 6px;
