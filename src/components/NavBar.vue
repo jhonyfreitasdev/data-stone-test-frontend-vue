@@ -2,12 +2,19 @@
     <header>
         <nav>
             <ul class="list">
+                <ul>
+                    <li class="item">
+                        <router-link to='/registration/customers'>Cadastro de clientes</router-link>
+                    </li>
+                    <li class="item">
+                        <router-link to='/registration/products'>Cadastro de produtos</router-link>
+                    </li>
+                </ul>
+
                 <li class="item">
-                    <router-link to='/clients'>Cadastro de clientes</router-link>
+                    <router-link to='/query'>Consultas</router-link>
                 </li>
-                <li class="item">
-                    <router-link to='/products'>Cadastro de produtos</router-link>
-                </li>
+
                 <li class="item">
                     <router-link to='/association'>Associação de produtos com clientes</router-link>
                 </li>
