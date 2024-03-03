@@ -15,8 +15,8 @@
                 <input v-model="tel" type="tel" name="tel" id="customer-tel">
             </div>
             <div class="input-container">
-                <label for="customer-email">Email</label>
-                <input v-model="email" type="email" name="email" id="customer-email">
+                <label for="customer-mail">Email</label>
+                <input v-model="mail" type="mail" name="mail" id="customer-mail">
             </div>
             <div class="input-container">
                 <label for="customer-status">Cliente ativo</label>
@@ -40,7 +40,7 @@ export default {
             name: '',
             document: '',
             tel: '',
-            email: '',
+            mail: '',
             activatedStatus: null
         }
     },
@@ -50,9 +50,15 @@ export default {
                 name: this.name,
                 document: this.document,
                 tel: this.tel,
-                email: this.email,
+                mail: this.mail,
                 activatedStatus: this.activatedStatus === 'yes'
             });
+
+            this.name= '';
+            this.document = '';
+            this.tel = '';
+            this.mail = '';
+            this.activatedStatus = null
         }
     }
 }

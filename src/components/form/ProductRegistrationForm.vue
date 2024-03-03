@@ -35,6 +35,9 @@ export default {
                 name: this.name,
                 activatedStatus: this.activatedStatus === 'yes'
             });
+
+            this.name = '';
+            this.activatedStatus = '';
         }
     }
 };
