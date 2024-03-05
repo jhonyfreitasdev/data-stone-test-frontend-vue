@@ -3,16 +3,18 @@
         <h2> Associação de produtos </h2>
 
         <form @submit.prevent="submitForm">
-            <div class="input-container">
-                <label for="names">Selecione um nome para associar:</label>
-                <select v-model="selectedName" name="names" id="names">
-                    <option value=""></option>
-                    <option v-for="name in nameList" :key="name.document" :value="name.name">{{ name.name }}</option>
-                </select>
+            <div class="input-container autocomplete-container">
+                <label for="names">Selecione um cliente para associar:</label>
+                <input v-model="selectedName" @input="onChangeInput" type="text" name="name" id="names">
+                <ul class="autocomplete-list">
+                    <li v-for="customer in autocompleteList" @click="selectCustomer(customer)" :key="customer.document">
+                        {{ customer.name }}
+                    </li>
+                </ul>
             </div>
 
             <div class="input-container">
-                <label for="names"> Produtos: </label>
+                <label for="names"> Produtos cadastrados: </label>
                 <div v-for="product in productList" :key="product.name">
                     <input type="checkbox" v-model="selectedProduct" :value="product" :id="product.name">
                     {{ product.name }}
@@ -32,22 +34,54 @@ export default {
     name: 'association-form',
     data() {
         return {
-            nameList: this.$store.state.customers,
-            productList: this.$store.state.products,
+            customerList: this.$store.state.customers || [],
+            productList: this.$store.state.products || [],
             selectedName: '',
+            autocompleteList: [],
             selectedProduct: []
         }
     },
     methods: {
+        onChangeInput() {
+            const inputValue = this.selectedName.toLowerCase();
+            const customerList = this.$store.state.customers;
+            const filteredNames = customerList.filter(customer => customer.name.toLowerCase().startsWith(inputValue));
+
+            inputValue !== '' ? this.autocompleteList = filteredNames : this.autocompleteList = [];
+
+            if (filteredNames.length === 0) this.autocompleteList = [{ name: 'Usuário não encontrado' }];
+        },
+        selectCustomer(customer) {
+            if ( customer.name === 'Usuário não encontrado' ) {
+                this.selectedName = '';
+                this.autocompleteList = [];
+            } else{
+                this.selectedName = customer.name;
+                this.autocompleteList = [];
+            }
+        },
         submitForm() {
-            const productList = this.selectedProduct.map(product => product.name);
-
-            this.$store.commit('createAssociationList', {
-                name: this.selectedName,
-                productList
+            const newCustomerList = this.customerList.map(item => {
+                if (item.name === this.selectedName) {
+                    return {
+                        name: item.name,
+                        document: item.document,
+                        tel: item.tel,
+                        mail: item.mail,
+                        activatedStatus: item.activatedStatus,
+                        associatedProducts: [
+                            ...item.associatedProducts,
+                            ...this.selectedProduct
+                        ]
+                    }
+                } else {
+                    return item
+                }
             });
-
-            console.log(this.$store.state.association);
+            this.customerList = newCustomerList;
+            this.$store.commit('updateCustomerList', newCustomerList);
+            this.selectedName = '';
+            this.selectedProduct = [];
         }
     }
 }
@@ -85,15 +119,9 @@ export default {
 
 .form-container form .input-container input {
     border: 1px solid #1d1c1c8e;
-    border-radius: 6px;
+    border-radius: 4px;
     padding: 6px;
-}
-
-.form-container form .input-container input,
-select {
-    border: 1px solid #1d1c1c8e;
-    border-radius: 6px;
-    padding: 6px;
+    z-index: 1;
 }
 
 .form-container form .input-container .btn-submit {
@@ -106,5 +134,25 @@ select {
     cursor: pointer;
     margin: 15px auto 0 auto;
     padding: 10px;
+}
+
+.form-container form .input-container.autocomplete-container {
+    position: relative;
+}
+
+.form-container form .input-container.autocomplete-container .autocomplete-list {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.form-container form .input-container.autocomplete-container .autocomplete-list li {
+    font-size: 14px;
+    margin: 8px;
+    cursor: pointer;
 }
 </style>
