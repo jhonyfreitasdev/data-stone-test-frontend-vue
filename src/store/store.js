@@ -3,8 +3,7 @@ import { createStore } from "vuex";
 const store = createStore({
     state: {
         customers: [],
-        products: [],
-        association: []
+        products: []
     },
     mutations: {
         addCustomer(state, customer) {
@@ -18,9 +17,6 @@ const store = createStore({
         },
         updateProductList(state, product) {
             state.products = product
-        },
-        createAssociationList(state, customerProductList) {
-            state.association.push(customerProductList);
         }
     }
 });
