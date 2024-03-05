@@ -15,14 +15,16 @@
                 </div>
 
                 <div class="content edit" v-else-if="fieldInEditing === product.name">
-                    <div class="input-container">
-                        <label for="name-edit">Nome:</label>
-                        <input v-model="editedProduct.name" id="name-edit" name="name" type="text" />
-                    </div>
-                    <div class="input-container">
-                        <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar </button>
-                        <button @click="saveField(product)" class="btn-save" type="button"> Salvar </button>
-                    </div>
+                    <form @submit.prevent="saveField(product)">
+                        <div class="input-container">
+                            <label for="name-edit">Nome:</label>
+                            <input v-model="editName" @change="onChangeName" id="name-edit" name="name" type="text" required/>
+                        </div>
+                        <div class="input-container">
+                            <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar </button>
+                            <input class="btn-save" type="submit" value="Salvar" />
+                        </div>
+                    </form>
                 </div>
             </li>
         </ul>
@@ -37,17 +39,13 @@ export default {
             productList: this.$store.state.products || [],
             fieldInEditing: '',
             productStatus: '',
-            editedProduct: {
-                name: ''
-            }
+            editName: ''
         }
     },
     methods: {
         clearFields() {
             this.fieldInEditing = '';
-            this.editedProduct = {
-                name: ''
-            }
+            this.editName = '';
         },
         editField(product) {
             this.fieldInEditing = product.name
@@ -61,7 +59,7 @@ export default {
             const newProductList = this.productList.map(item => {
                 if (item.name === product.name) {
                     return {
-                        name: this.editedProduct.name,
+                        name: this.editName,
                         activatedStatus: product.activatedStatus
                     }
                 } else {
@@ -86,6 +84,14 @@ export default {
             });
             this.productList = newProductList;
             this.$store.commit('updateProductList', newProductList);
+        },
+        onChangeName() {
+            this.productList.forEach(item => {
+                if (item.name === this.editName) {
+                    window.alert('Produto já cadastrado!')
+                    this.editName = '';
+                }
+            });
         }
     }
 }
@@ -94,3 +100,4 @@ export default {
 <style lang="sass">
 @import './ProductList.sass'
 </style>
+import { withScopeId } from 'vue';

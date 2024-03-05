@@ -25,6 +25,7 @@
                                 <button @click="associateProduct(customer)" type="button"> ✔️ </button>
                                 <button @click="() => this.activatedProductList = ''" type="button"> ❌ </button>
                             </li>
+                            <li v-if="this.productList.length === 0">Nenhum produto cadastrado</li>
                             <li v-for="product in productList">
                                 <input type="checkbox" v-model="selectedProduct" :value="product" :id="product.name">
                                 {{ product.name }}
@@ -34,11 +35,13 @@
 
                     <div class="associated-products">
                         <p>Lista de produtos associados:</p>
+                        <p v-if="customer.associatedProducts.length === 0">Nenhum produto associado</p>
                         <ul class="list">
                             <li class="item" v-for="product in customer.associatedProducts" :key="product.name">
                                 <p>Nome: {{ product.name }}</p>
                                 <p>Ativo: {{ product.activatedStatus ? 'Sim' : 'Não' }}</p>
-                                <button class="associated-button" @click="removeAssociatedProduct(product, customer)" type="button">
+                                <button class="associated-button" @click="removeAssociatedProduct(product, customer)"
+                                    type="button">
                                     Remover</button>
                             </li>
                         </ul>
@@ -46,28 +49,30 @@
                 </div>
 
                 <div class="content edit" v-else-if="fieldInEditing === customer.document">
-                    <div class="customer-info">
+                    <form @submit.prevent="saveField(customer)" class="customer-info">
                         <div class="input-container">
                             <label for="name-edit">Nome:</label>
-                            <input v-model="editedCustomer.name" id="name-edit" name="name" type="text" />
+                            <input v-model="editedCustomer.name" id="name-edit" name="name" type="text" required />
                         </div>
                         <div class="input-container">
                             <label for="document-edit">Documento:</label>
-                            <input v-model="editedCustomer.document" id="document-edit" name="document" type="text" />
+                            <input v-model="editedCustomer.document" @change="onChangeDocument" id="document-edit"
+                                name="document" type="text" required />
                         </div>
                         <div class="input-container">
                             <label for="tel-edit">Telefone:</label>
-                            <input v-model="editedCustomer.tel" id="tel-edit" name="tel" type="text" />
+                            <input v-model="editedCustomer.tel" id="tel-edit" name="tel" type="text" required />
                         </div>
                         <div class="input-container">
                             <label for="mail-edit">Email:</label>
-                            <input v-model="editedCustomer.mail" id="mail-edit" name="mail" type="text" />
+                            <input v-model="editedCustomer.mail" id="mail-edit" name="mail" type="text" required />
                         </div>
-                    </div>
-                    <div class="input-container">
-                        <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar </button>
-                        <button @click="saveField(customer)" class="btn-save" type="button"> Salvar </button>
-                    </div>
+                        <div class="input-container">
+                            <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar
+                            </button>
+                            <input class="btn-save" type="submit" value="Salvar" />
+                        </div>
+                    </form>
                 </div>
             </li>
         </ul>
@@ -131,6 +136,17 @@ export default {
             this.clearFields();
         },
         associateProduct(customer) {
+            this.customerList.forEach(item => {
+                if (item.document === customer.document) {
+                    item.associatedProducts.forEach(product => {
+                        const foundProduct = this.selectedProduct.find(item => item.name === product.name)
+                        if (foundProduct !== undefined) {
+                            window.alert('Produto já associado')
+                            this.selectedProduct = [];
+                        };
+                    })
+                }
+            });
             const newCustomerList = this.customerList.map(item => {
                 if (item.document === customer.document) {
                     return {
@@ -189,6 +205,16 @@ export default {
             });
             this.customerList = newCustomerList;
             this.$store.commit('updateCustomerList', newCustomerList);
+        },
+        onChangeDocument() {
+            const foundCustomer = this.$store.state.customers.find(item => item.document === this.editedCustomer.document)
+            if (foundCustomer !== undefined) {
+                window.alert('Cliente já cadastrado')
+                this.editedCustomer.name = '';
+                this.editedCustomer.document = '';
+                this.editedCustomer.tel = '';
+                this.editedCustomer.mail = '';
+            };
         }
     }
 }
