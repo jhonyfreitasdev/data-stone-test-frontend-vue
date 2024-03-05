@@ -36,6 +36,8 @@ Teste técnico de Vue.js para empresa Data Stone
 ## Passo a passo para rodar o projeto
 
 ### Copiando o projeto para sua maquina
+- Escolha uma pasta para baixar o projeto
+- Abra o terminal na pasta escolhida e digite o comando abaixo
 - `git clone https://github.com/jhonyfreitasdev/data-stone-test-frontend-vue.git`
  
 ### Instalando os pacotes necessários para compilar e rodar o projeto  
