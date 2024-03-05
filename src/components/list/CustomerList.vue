@@ -13,6 +13,7 @@
                     <div>
                         <button @click="editField(customer)" type="button"> Editar </button>
                         <button @click="removeItem(customer)" type="button"> Remover </button>
+                        <button @click="changeStatus(customer)" type="button"> {{ customer.activatedStatus ? 'Desativar' : 'Ativar' }} </button>
                     </div>
                 </div>
 
@@ -112,6 +113,23 @@ export default {
                 status: ''
             }
         },
+        changeStatus(customer) {
+            const newCustomerList = this.customerList.map(item => {
+                if (customer.name === item.name) {
+                    return {
+                        name: customer.name,
+                        document: customer.document,
+                        tel: customer.tel,
+                        mail: customer.mail,
+                        activatedStatus: customer.activatedStatus ? false : true
+                    }
+                } else {
+                    return item
+                }
+            });
+            this.customerList = newCustomerList;
+            this.$store.commit('updateCustomerList', newCustomerList);
+        }
     }
 }
 </script>

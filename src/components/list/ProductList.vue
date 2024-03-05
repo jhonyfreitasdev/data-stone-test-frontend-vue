@@ -10,6 +10,7 @@
                     <div>
                         <button @click="editField(product)" type="button"> Editar </button>
                         <button @click="removeItem(product)" type="button"> Remover </button>
+                        <button @click="changeStatus(product)" type="button"> {{ product.activatedStatus ? 'Desativar' : 'Ativar' }} </button>
                     </div>
                 </div>
 
@@ -42,6 +43,7 @@ export default {
         return {
             productList: this.$store.state.products || [],
             fieldInEditing: '',
+            productStatus: '',
             editedProduct: {
                 name: '',
                 status: ''
@@ -76,6 +78,20 @@ export default {
             this.$store.commit('updateProductList', newProductList);
             this.fieldInEditing = '';
         },
+        changeStatus(product) {
+            const newProductList = this.productList.map(item => {
+                if (product.name === item.name) {
+                    return {
+                        name: product.name,
+                        activatedStatus: product.activatedStatus ? false : true
+                    }
+                } else {
+                    return item
+                }
+            });
+            this.productList = newProductList;
+            this.$store.commit('updateProductList', newProductList);
+        }
     }
 }
 </script>
