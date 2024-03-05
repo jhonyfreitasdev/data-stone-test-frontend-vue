@@ -41,6 +41,7 @@ Teste técnico de Vue.js para empresa Data Stone
 - `git clone https://github.com/jhonyfreitasdev/data-stone-test-frontend-vue.git`
  
 ### Instalando os pacotes necessários para compilar e rodar o projeto  
+- Abra a pasta do projeto
 - Certifique-se de ter o node.js instalado na sua máquina.
 - Dentro da pasta do projeto abra o terminal e digite `npm install`
 - Feito isso será instalado todas as dependências necessárias para rodar o projeto.
