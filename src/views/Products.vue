@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ProductRegistrationForm from '../components/form/ProductRegistrationForm.vue';
+import ProductRegistrationForm from '../components/form/product-registration-form/ProductRegistrationForm.vue';
 
 export default {
     name: 'products',

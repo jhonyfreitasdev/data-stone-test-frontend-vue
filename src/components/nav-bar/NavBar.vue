@@ -29,20 +29,6 @@ export default {
 }
 </script>
 
-<style scoped>
-header {
-    width: 100%;
-}
-
-header .list {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    background-color: lightgray;
-    padding: 10px;
-}
-
-header .list .item a {
-    font-size: 20px;
-}
+<style lang="sass">
+@import './NavBar.sass'
 </style>

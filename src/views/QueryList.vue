@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import CustomerList from '../components/list/CustomerList.vue';
-import ProductList from '../components/list/ProductList.vue';
+import CustomerList from '../components/list/customer-list/CustomerList.vue';
+import ProductList from '../components/list/product-list/ProductList.vue';
 
 export default {
     name: 'query-list',
@@ -40,28 +40,26 @@ export default {
 }
 </script>
 
-<style scoped>
-.list-container {
-    position: relative;
-}
+<style lang="sass">
+.list-container
+    position: relative
 
-.list-container h2 {
-    position: absolute;
-    top: -43px;
-    background-color: lightgrey;
-    padding: 5px 10px 0 10px;
-    border-radius: 5px 5px 0 0;
-}
+    h2
+        position: absolute
+        top: -43px
+        background-color: lightgrey
+        padding: 5px 10px 0 10px
+        border-radius: 5px 5px 0 0
 
-.button-container button {
-    background-color: darkgray;
-    color: #ffffff;
-    text-shadow: 1px 1px 5px #000000af;
-    font-size: 16px;
-    border: none;
-    box-shadow: 0 0 3px #00000090;
-    cursor: pointer;
-    margin: 10px 25px 20px 10px;
-    padding: 7px 10px;
-}
+    .button-container button
+        background-color: darkgray
+        color: #ffffff
+        text-shadow: 1px 1px 5px #000000af
+        font-size: 16px
+        border: none
+        box-shadow: 0 0 3px #00000090
+        cursor: pointer
+        margin: 10px 25px 20px 10px
+        padding: 7px 10px
+
 </style>
