@@ -3,8 +3,8 @@
         <h2> Consultas </h2>
 
         <div class='button-container'>
-            <button @click="changeList" type="button" id="customer">Lista de clientes</button>
-            <button @click="changeList" type="button" id="products">Lista de produtos</button>
+            <button @click="changeList('customer')" type="button" :class="this.selectedList === 'customer' ? 'active' : ''">Lista de clientes</button>
+            <button @click="changeList('products')" type="button" :class="this.selectedList === 'products' ? 'active' : ''">Lista de produtos</button>
         </div>
 
         <div v-if="selectedList === 'customer'">
@@ -22,7 +22,7 @@ import CustomerList from '../components/list/customer-list/CustomerList.vue';
 import ProductList from '../components/list/product-list/ProductList.vue';
 
 export default {
-    name: 'query-list',
+    name: 'QueryList',
     data() {
         return {
             selectedList: 'customer',
@@ -33,8 +33,8 @@ export default {
         ProductList
     },
     methods: {
-        changeList(e) {
-            this.selectedList = e.target.id;
+        changeList(listType) {
+            this.selectedList = listType;
         }
     }
 }
@@ -64,5 +64,7 @@ export default {
         cursor: pointer
         margin: 10px 25px 20px 10px
         padding: 7px 10px
-
+        
+    .button-container .active
+        background-color: #333333
 </style>

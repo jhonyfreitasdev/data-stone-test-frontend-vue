@@ -11,14 +11,12 @@
 import NavBar from './components/nav-bar/NavBar.vue';
 
 export default {
-	name: 'app',
-	components: {
-		NavBar
-	}
+	name: 'App',
+	components: { NavBar }
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .app-container
 	display: flex
 	flex-direction: column

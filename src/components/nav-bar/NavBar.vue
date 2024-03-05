@@ -2,7 +2,7 @@
     <header>
         <nav>
             <ul class="list">
-                <li class="item registration" @click="changeStatus">
+                <li class="item registration" @click="toggleActivatedList">
                     Cadastro
                     <ul v-if="activatedList" class="list-registration">
                         <li class="item">
@@ -30,14 +30,10 @@
 export default {
     name: 'nav-bar',
     data() {
-        return {
-            activatedList: false
-        }
+        return { activatedList: false }
     },
     methods: {
-        changeStatus() {
-            !this.activatedList ? this.activatedList = true : this.activatedList = false 
-        }
+        toggleActivatedList() { this.activatedList = !this.activatedList; }
     }
 }
 </script>
