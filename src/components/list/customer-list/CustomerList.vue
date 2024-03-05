@@ -68,7 +68,7 @@
                             <input v-model="editedCustomer.mail" id="mail-edit" name="mail" type="text" required />
                         </div>
                         <div class="input-container">
-                            <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar
+                            <button @click="cancel" class="btn-cancel" type="button"> Cancelar
                             </button>
                             <input class="btn-save" type="submit" value="Salvar" />
                         </div>
@@ -119,6 +119,10 @@ export default {
             const newCustomerList = this.customerList.filter(item => item.document !== customer.document);
             this.customerList = newCustomerList;
             this.$store.commit('updateCustomerList', newCustomerList);
+        },
+        cancel() {
+            this.cancelEditing();
+            this.clearFields();
         },
         saveField(customer) {
             const newCustomerList = this.customerList.map(item => {
