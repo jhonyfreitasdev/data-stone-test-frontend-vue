@@ -1,6 +1,7 @@
 <template>
     <div class="form-container">
         <h2>Cadastro de clientes</h2>
+
         <form @submit.prevent="submitForm">
             <div class="input-container">
                 <label for="customer-name">Nome completo</label>
@@ -8,8 +9,8 @@
             </div>
             <div class="input-container">
                 <label for="customer-document">CPF</label>
-                <input v-model="document" @change="onChangeDocument" type="text" name="document"
-                    id="customer-document" required>
+                <input v-model="document" @change="onChangeDocument" type="text" name="document" id="customer-document"
+                    required>
             </div>
             <div class="input-container">
                 <label for="customer-tel">Telefone</label>
@@ -35,7 +36,7 @@
 
 <script>
 export default {
-    name: 'customer-registration-from',
+    name: 'customerRegistrationFrom',
     data() {
         return {
             name: '',
@@ -46,15 +47,18 @@ export default {
         }
     },
     methods: {
+        clearForm() {
+            this.name = '';
+            this.document = '';
+            this.tel = '';
+            this.mail = '';
+            this.activatedStatus = null
+        },
         onChangeDocument() {
             const foundCustomer = this.$store.state.customers.find(item => item.document === this.document)
             if (foundCustomer !== undefined) {
                 window.alert('Cliente já cadastrado')
-                this.name = '';
-                this.document = '';
-                this.tel = '';
-                this.mail = '';
-                this.activatedStatus = null
+                this.clearForm();
             };
         },
         submitForm() {
@@ -68,16 +72,12 @@ export default {
             });
 
             window.alert('Cliente cadastrado com sucesso!')
-            this.name = '';
-            this.document = '';
-            this.tel = '';
-            this.mail = '';
-            this.activatedStatus = null
+            this.clearForm();
         }
     }
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
     @import './CustomerRegistrationForm.sass'
 </style>

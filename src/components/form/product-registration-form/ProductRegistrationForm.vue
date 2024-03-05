@@ -1,10 +1,11 @@
 <template>
     <div class="form-container">
         <h2>Cadastro de produtos</h2>
+
         <form @submit.prevent="submitForm">
             <div class="input-container">
                 <label for="product-name">Nome do produto</label>
-                <input v-model="name" @change="onChangeName()" id="product-name" name="name" type="text" required/>
+                <input v-model="name" @change="onChangeName" id="product-name" name="name" type="text" required />
             </div>
             <div class="input-container">
                 <label for="product-status">Produto ativo</label>
@@ -30,12 +31,16 @@ export default {
         };
     },
     methods: {
+        clearForm() {
+            this.name = '';
+            this.activatedStatus = '';
+        },
         onChangeName() {
             const foundProduct = this.$store.state.products.find(item => item.name === this.name)
+
             if (foundProduct !== undefined) {
-                window.alert('Produto já cadastrado')
-                this.name = '';
-                this.activatedStatus = '';
+                window.alert('Produto já cadastrado');
+                this.clearForm();
             };
         },
         submitForm() {
@@ -44,14 +49,13 @@ export default {
                 activatedStatus: this.activatedStatus === 'yes'
             });
 
-            window.alert('Produto cadastrado com sucesso!')
-            this.name = '';
-            this.activatedStatus = '';
+            window.alert('Produto cadastrado com sucesso!');
+            this.clearForm();
         }
     }
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import './ProductRegistrationForm.sass'
 </style>

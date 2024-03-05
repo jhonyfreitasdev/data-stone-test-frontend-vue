@@ -15,7 +15,7 @@
 
             <div class="input-container">
                 <label for="names"> Produtos cadastrados: </label>
-                <p v-if="this.productList.length === 0">Não possui produtos cadastrado</p>
+                <p v-if="noProducts">Não possui produtos cadastrado</p>
                 <div v-for="product in productList" :key="product.name">
                     <input type="checkbox" v-model="selectedProduct" :value="product" :id="product.name">
                     {{ product.name }}
@@ -41,6 +41,9 @@ export default {
             autocompleteList: [],
             selectedProduct: []
         }
+    },
+    computed: {
+        noProducts() {return this.productList.length === 0;}
     },
     methods: {
         onChangeInput() {
@@ -93,6 +96,6 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import './AssociationForm.sass'
 </style>

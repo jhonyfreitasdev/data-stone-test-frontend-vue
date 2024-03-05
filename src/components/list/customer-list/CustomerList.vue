@@ -98,8 +98,10 @@ export default {
         }
     },
     methods: {
-        clearFields() {
+        cancelEditing() {
             this.fieldInEditing = '';
+        },
+        clearFields() {
             this.editedCustomer = {
                 name: '',
                 document: '',
@@ -117,53 +119,31 @@ export default {
         },
         saveField(customer) {
             const newCustomerList = this.customerList.map(item => {
-                if (item.document === customer.document) {
-                    return {
-                        name: this.editedCustomer.name,
-                        document: this.editedCustomer.document,
-                        tel: this.editedCustomer.tel,
-                        mail: this.editedCustomer.mail,
-                        activatedStatus: customer.activatedStatus,
-                        associatedProducts: customer.associatedProducts
-                    }
-                } else {
-                    return item
-                }
+                return item.document === customer.document
+                    ? { ...this.editedCustomer, activatedStatus: customer.activatedStatus, associatedProducts: customer.associatedProducts }
+                    : item;
             });
 
             this.customerList = newCustomerList;
             this.$store.commit('updateCustomerList', newCustomerList);
+            this.cancelEditing();
             this.clearFields();
         },
         associateProduct(customer) {
-            this.customerList.forEach(item => {
-                if (item.document === customer.document) {
-                    item.associatedProducts.forEach(product => {
-                        const foundProduct = this.selectedProduct.find(item => item.name === product.name)
-                        if (foundProduct !== undefined) {
-                            window.alert('Produto já associado')
-                            this.selectedProduct = [];
-                        };
-                    })
-                }
-            });
+            const foundProduct = customer.associatedProducts.find(product => this.selectedProduct.some(item => item.name === product.name));
+
+            if (foundProduct) {
+                window.alert('Produto já associado');
+                this.selectedProduct = [];
+                return;
+            }
             const newCustomerList = this.customerList.map(item => {
-                if (item.document === customer.document) {
-                    return {
-                        name: item.name,
-                        document: item.document,
-                        tel: item.tel,
-                        mail: item.mail,
-                        activatedStatus: item.activatedStatus,
-                        associatedProducts: [
-                            ...item.associatedProducts,
-                            ...this.selectedProduct
-                        ]
-                    }
-                } else {
-                    return item
-                }
+                return item.document === customer.document ? {
+                    ...item,
+                    associatedProducts: [...item.associatedProducts, ...this.selectedProduct]
+                } : item
             });
+
             this.customerList = newCustomerList;
             this.$store.commit('updateCustomerList', newCustomerList);
             this.selectedProduct = [];
@@ -173,16 +153,7 @@ export default {
             const filteredProducts = customer.associatedProducts.filter(item => item.name !== product.name)
 
             const newCustomerList = this.customerList.map(copyCustomer => {
-                if (copyCustomer.name === customer.name) {
-                    return {
-                        name: copyCustomer.name,
-                        document: copyCustomer.document,
-                        tel: copyCustomer.tel,
-                        mail: copyCustomer.mail,
-                        activatedStatus: copyCustomer.activatedStatus,
-                        associatedProducts: filteredProducts
-                    }
-                } else return copyCustomer
+                return copyCustomer.name === customer.name ? { ...copyCustomer, associatedProducts: filteredProducts } : copyCustomer;
             })
 
             this.customerList = newCustomerList
@@ -190,18 +161,7 @@ export default {
         },
         changeStatus(customer) {
             const newCustomerList = this.customerList.map(item => {
-                if (customer.name === item.name) {
-                    return {
-                        name: customer.name,
-                        document: customer.document,
-                        tel: customer.tel,
-                        mail: customer.mail,
-                        activatedStatus: customer.activatedStatus ? false : true,
-                        associatedProducts: customer.associatedProducts
-                    }
-                } else {
-                    return item
-                }
+                return customer.name === item.name ? {...customer, activatedStatus: !customer.activatedStatus} : item;
             });
             this.customerList = newCustomerList;
             this.$store.commit('updateCustomerList', newCustomerList);
@@ -210,16 +170,13 @@ export default {
             const foundCustomer = this.$store.state.customers.find(item => item.document === this.editedCustomer.document)
             if (foundCustomer !== undefined) {
                 window.alert('Cliente já cadastrado')
-                this.editedCustomer.name = '';
-                this.editedCustomer.document = '';
-                this.editedCustomer.tel = '';
-                this.editedCustomer.mail = '';
+                this.clearFields();
             };
         }
     }
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import'./CustomerList.sass'
 </style>

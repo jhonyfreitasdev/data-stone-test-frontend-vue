@@ -28,7 +28,7 @@
 
 <script>
 export default {
-    name: 'nav-bar',
+    name: 'navBar',
     data() {
         return { activatedList: false }
     },
@@ -38,6 +38,6 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import './NavBar.sass'
 </style>

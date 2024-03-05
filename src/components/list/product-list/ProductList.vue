@@ -9,7 +9,8 @@
                     <p>Ativo: {{ product.activatedStatus ? 'Sim' : 'Não' }}</p>
                     <div>
                         <button @click="editField(product)" type="button"> Editar </button>
-                        <button @click="changeStatus(product)" type="button"> {{ product.activatedStatus ? 'Desativar' : 'Ativar' }} </button>
+                        <button @click="changeStatus(product)" type="button"> {{ product.activatedStatus ? 'Desativar' :
+                'Ativar' }} </button>
                         <button @click="removeItem(product)" type="button"> Remover </button>
                     </div>
                 </div>
@@ -18,10 +19,12 @@
                     <form @submit.prevent="saveField(product)">
                         <div class="input-container">
                             <label for="name-edit">Nome:</label>
-                            <input v-model="editName" @change="onChangeName" id="name-edit" name="name" type="text" required/>
+                            <input v-model="editName" @change="verifyAlreadyExists" id="name-edit" name="name" type="text"
+                                required />
                         </div>
                         <div class="input-container">
-                            <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar </button>
+                            <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar
+                            </button>
                             <input class="btn-save" type="submit" value="Salvar" />
                         </div>
                     </form>
@@ -33,7 +36,7 @@
 
 <script>
 export default {
-    name: 'product-list',
+    name: 'productList',
     data() {
         return {
             productList: this.$store.state.products || [],
@@ -62,9 +65,8 @@ export default {
                         name: this.editName,
                         activatedStatus: product.activatedStatus
                     }
-                } else {
-                    return item
                 }
+                return item
             });
 
             this.productList = newProductList;
@@ -78,26 +80,24 @@ export default {
                         name: product.name,
                         activatedStatus: product.activatedStatus ? false : true
                     }
-                } else {
-                    return item
                 }
+                return item
             });
             this.productList = newProductList;
             this.$store.commit('updateProductList', newProductList);
         },
-        onChangeName() {
-            this.productList.forEach(item => {
-                if (item.name === this.editName) {
-                    window.alert('Produto já cadastrado!')
-                    this.editName = '';
-                }
-            });
+        verifyAlreadyExists() {
+            const isProductAlreadyExists = this.productList.some((item) => item.name === this.editName);
+
+            if (isProductAlreadyExists) {
+                window.alert('Produto já cadastrado!')
+                this.editName = '';
+            }
         }
     }
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 @import './ProductList.sass'
 </style>
-import { withScopeId } from 'vue';
