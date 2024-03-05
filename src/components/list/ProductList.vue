@@ -9,8 +9,8 @@
                     <p>Ativo: {{ product.activatedStatus ? 'Sim' : 'Não' }}</p>
                     <div>
                         <button @click="editField(product)" type="button"> Editar </button>
-                        <button @click="removeItem(product)" type="button"> Remover </button>
                         <button @click="changeStatus(product)" type="button"> {{ product.activatedStatus ? 'Desativar' : 'Ativar' }} </button>
+                        <button @click="removeItem(product)" type="button"> Remover </button>
                     </div>
                 </div>
 
@@ -20,14 +20,7 @@
                         <input v-model="editedProduct.name" id="name-edit" name="name" type="text" />
                     </div>
                     <div class="input-container">
-                        <label for="status-edit">Ativo:</label>
-                        <select v-model="editedProduct.status" id="status-edit" name="status">
-                            <option value="yes"> Sim </option>
-                            <option value="no"> Não </option>
-                        </select>
-                    </div>
-                    <div class="input-container">
-                        <button @click="cancelEdit" class="btn-cancel" type="button"> Cancelar </button>
+                        <button @click="() => this.clearFields()" class="btn-cancel" type="button"> Cancelar </button>
                         <button @click="saveField(product)" class="btn-save" type="button"> Salvar </button>
                     </div>
                 </div>
@@ -45,12 +38,17 @@ export default {
             fieldInEditing: '',
             productStatus: '',
             editedProduct: {
-                name: '',
-                status: ''
+                name: ''
             }
         }
     },
     methods: {
+        clearFields() {
+            this.fieldInEditing = '';
+            this.editedProduct = {
+                name: ''
+            }
+        },
         editField(product) {
             this.fieldInEditing = product.name
         },
@@ -59,15 +57,12 @@ export default {
             this.productList = newProductList;
             this.$store.commit('updateProductList', newProductList);
         },
-        cancelEdit() {
-            this.fieldInEditing = ''
-        },
         saveField(product) {
             const newProductList = this.productList.map(item => {
                 if (item.name === product.name) {
                     return {
                         name: this.editedProduct.name,
-                        activatedStatus: this.editedProduct.status
+                        activatedStatus: product.activatedStatus
                     }
                 } else {
                     return item
@@ -76,7 +71,7 @@ export default {
 
             this.productList = newProductList;
             this.$store.commit('updateProductList', newProductList);
-            this.fieldInEditing = '';
+            this.clearFields();
         },
         changeStatus(product) {
             const newProductList = this.productList.map(item => {
