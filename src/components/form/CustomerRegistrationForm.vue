@@ -51,7 +51,8 @@ export default {
                 document: this.document,
                 tel: this.tel,
                 mail: this.mail,
-                activatedStatus: this.activatedStatus === 'yes'
+                activatedStatus: this.activatedStatus === 'yes',
+                associatedProducts: []
             });
 
             this.name= '';
