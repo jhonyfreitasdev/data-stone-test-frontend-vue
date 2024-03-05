@@ -4,7 +4,7 @@
             <ul class="list">
                 <li class="item registration" @click="changeStatus">
                     Cadastro
-                    <ul v-if="activatedList">
+                    <ul v-if="activatedList" class="list-registration">
                         <li class="item">
                             <router-link to='/registration/customers'>Cadastro de clientes</router-link>
                         </li>
@@ -19,7 +19,7 @@
                 </li>
 
                 <li class="item">
-                    <router-link to='/association'>Associação de produtos com clientes</router-link>
+                    <router-link to='/association'>Associação</router-link>
                 </li>
             </ul>
         </nav>
