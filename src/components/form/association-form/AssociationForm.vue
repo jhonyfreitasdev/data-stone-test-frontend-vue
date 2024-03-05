@@ -5,7 +5,7 @@
         <form @submit.prevent="submitForm">
             <div class="input-container autocomplete-container">
                 <label for="names">Selecione um cliente para associar:</label>
-                <input v-model="selectedName" @input="onChangeInput" type="text" name="name" id="names">
+                <input v-model="selectedName" @input="onChangeInput" type="text" name="name" id="names" required>
                 <ul class="autocomplete-list">
                     <li v-for="customer in autocompleteList" @click="selectCustomer(customer)" :key="customer.document">
                         {{ customer.name }}
@@ -15,6 +15,7 @@
 
             <div class="input-container">
                 <label for="names"> Produtos cadastrados: </label>
+                <p v-if="this.productList.length === 0">Não possui produtos cadastrado</p>
                 <div v-for="product in productList" :key="product.name">
                     <input type="checkbox" v-model="selectedProduct" :value="product" :id="product.name">
                     {{ product.name }}
@@ -52,36 +53,41 @@ export default {
             if (filteredNames.length === 0) this.autocompleteList = [{ name: 'Usuário não encontrado' }];
         },
         selectCustomer(customer) {
-            if ( customer.name === 'Usuário não encontrado' ) {
+            if (customer.name === 'Usuário não encontrado') {
                 this.selectedName = '';
                 this.autocompleteList = [];
-            } else{
+            } else {
                 this.selectedName = customer.name;
                 this.autocompleteList = [];
             }
         },
         submitForm() {
-            const newCustomerList = this.customerList.map(item => {
-                if (item.name === this.selectedName) {
-                    return {
-                        name: item.name,
-                        document: item.document,
-                        tel: item.tel,
-                        mail: item.mail,
-                        activatedStatus: item.activatedStatus,
-                        associatedProducts: [
-                            ...item.associatedProducts,
-                            ...this.selectedProduct
-                        ]
+            if (this.selectedProduct.length !== 0) {
+                const newCustomerList = this.customerList.map(item => {
+                    if (item.name === this.selectedName) {
+                        return {
+                            name: item.name,
+                            document: item.document,
+                            tel: item.tel,
+                            mail: item.mail,
+                            activatedStatus: item.activatedStatus,
+                            associatedProducts: [
+                                ...item.associatedProducts,
+                                ...this.selectedProduct
+                            ]
+                        }
+                    } else {
+                        return item
                     }
-                } else {
-                    return item
-                }
-            });
-            this.customerList = newCustomerList;
-            this.$store.commit('updateCustomerList', newCustomerList);
-            this.selectedName = '';
-            this.selectedProduct = [];
+                });
+
+                window.alert('Produto associado com sucesso!');
+                this.customerList = newCustomerList;
+                this.$store.commit('updateCustomerList', newCustomerList);
+                this.selectedName = '';
+                this.selectedProduct = [];
+
+            } else window.alert('Escolha pelo menos um produto para associar!');
         }
     }
 }
