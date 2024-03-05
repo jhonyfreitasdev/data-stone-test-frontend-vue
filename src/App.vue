@@ -30,6 +30,9 @@ export default {
 	margin: 0 auto
 
 	main
+		@media (max-width: 440px)
+			width: 96%
+			padding: 10px
 		background-color: lightgray
 		width: 80%
 		border-radius: 8px

@@ -45,6 +45,9 @@ export default {
     position: relative
 
     h2
+        @media (max-width: 440px)
+            font-size: 19px
+            top: -36px
         position: absolute
         top: -43px
         background-color: lightgrey

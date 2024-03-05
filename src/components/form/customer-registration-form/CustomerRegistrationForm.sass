@@ -2,6 +2,9 @@
     position: relative
 
     h2
+        @media (max-width: 440px)
+            font-size: 19px
+            top: -36px
         position: absolute
         top: -43px
         background-color: lightgrey
@@ -9,6 +12,8 @@
         border-radius: 5px 5px 0 0
 
     form
+        @media (max-width: 440px)
+            padding: 15px
         display: flex
         flex-direction: column
         justify-content: center
@@ -18,6 +23,8 @@
         padding: 25px
 
         .input-container
+            @media (max-width: 440px)
+                width: 100%
             display: flex
             flex-direction: column
             margin-bottom: 17px
@@ -38,3 +45,5 @@
                 cursor: pointer
                 margin: 15px auto 0 auto
                 padding: 10px
+
+        
