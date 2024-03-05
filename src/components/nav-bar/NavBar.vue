@@ -2,14 +2,17 @@
     <header>
         <nav>
             <ul class="list">
-                <ul>
-                    <li class="item">
-                        <router-link to='/registration/customers'>Cadastro de clientes</router-link>
-                    </li>
-                    <li class="item">
-                        <router-link to='/registration/products'>Cadastro de produtos</router-link>
-                    </li>
-                </ul>
+                <li class="item registration" @click="changeStatus">
+                    Cadastro
+                    <ul v-if="activatedList">
+                        <li class="item">
+                            <router-link to='/registration/customers'>Cadastro de clientes</router-link>
+                        </li>
+                        <li class="item">
+                            <router-link to='/registration/products'>Cadastro de produtos</router-link>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="item">
                     <router-link to='/query'>Consultas</router-link>
@@ -26,6 +29,16 @@
 <script>
 export default {
     name: 'nav-bar',
+    data() {
+        return {
+            activatedList: false
+        }
+    },
+    methods: {
+        changeStatus() {
+            !this.activatedList ? this.activatedList = true : this.activatedList = false 
+        }
+    }
 }
 </script>
 
