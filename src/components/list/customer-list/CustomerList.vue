@@ -1,6 +1,7 @@
 <template>
     <div class="list-container">
         <p>Lista de Clientes:</p>
+        <p v-if="noCustomers"> Nenhum cliente cadastrado </p>
 
         <ul class="customer-list">
             <li class="item" v-for="customer in customerList" :key="customer.document">
@@ -15,8 +16,7 @@
 
                     <div class="button-container">
                         <button @click="editField(customer)" type="button"> Editar </button>
-                        <button @click="changeStatus(customer)" type="button"> {{ customer.activatedStatus ?
-                'Desativar' : 'Ativar' }} </button>
+                        <button @click="changeStatus(customer)" type="button"> {{ customer.activatedStatus ? 'Desativar' : 'Ativar' }} </button>
                         <button @click="removeItem(customer)" type="button"> Remover </button>
 
                         <button @click="() => this.activatedProductList = customer.name"> Associar </button>
@@ -96,6 +96,9 @@ export default {
                 mail: '',
             }
         }
+    },
+    computed: {
+        noCustomers() {return this.customerList.length === 0;}
     },
     methods: {
         cancelEditing() {

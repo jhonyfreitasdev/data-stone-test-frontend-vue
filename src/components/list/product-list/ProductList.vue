@@ -1,6 +1,7 @@
 <template>
     <div class="list-container">
         <p>Lista de Produtos:</p>
+        <p v-if="noProducts"> Nenhum produto cadastrado </p>
 
         <ul class="list">
             <li class="item" v-for="product in productList" :key="product.name">
@@ -44,6 +45,9 @@ export default {
             productStatus: '',
             editName: ''
         }
+    },
+    computed: {
+        noProducts() {return this.productList.length === 0;}
     },
     methods: {
         clearFields() {
